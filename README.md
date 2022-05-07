@@ -1,0 +1,2 @@
+# Imago
+Multithreaded Image Editor
