@@ -49,3 +49,6 @@ make
 <img src="https://user-images.githubusercontent.com/48306717/167314763-11cb2195-5bf8-4d85-b4a4-8d7f21ee3e27.png" alt="image3" width="50%"/><img src="https://user-images.githubusercontent.com/48306717/167314785-306aed5f-e49f-4a46-b0c1-54f63b2d600e.png" alt="out-image3" width="50%"/>
 
 Settings for above: luminance: -10, saturation: 10, hue: 0, highlights: -10, shadows: 0 vignette: 10 (-10 10 0 -10 0 10)
+
+## Citation
+Used help from the cs221util library for png and pixel structures. I used them to read and write png files and minipulate the pixels. Created by CPSC 221 from UBC.
