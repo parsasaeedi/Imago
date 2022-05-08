@@ -10,6 +10,10 @@ using namespace cs221util;
 
 /**
  * Returns an image with an adjusted luminance.
+ * 
+ * @param image A PNG object which holds the image data to be modified.
+ * @param adjustBy The percent of luminance to add.
+ * 
  * @return The adjusted image.
  */
 PNG adjustLuminance(PNG image, int adjustBy) {
@@ -26,6 +30,10 @@ PNG adjustLuminance(PNG image, int adjustBy) {
 
 /**
  * Returns an image with an adjusted saturation.
+ * 
+ * @param image A PNG object which holds the image data to be modified.
+ * @param adjustBy The percent of saturation to add.
+ * 
  * @return The adjusted image.
  */
 PNG adjustSaturation(PNG image, int adjustBy) {
@@ -42,6 +50,10 @@ PNG adjustSaturation(PNG image, int adjustBy) {
 
 /**
  * Returns an image with an adjusted hue.
+ * 
+ * @param image A PNG object which holds the image data to be modified.
+ * @param adjustBy The percent of hue to add.
+ * 
  * @return The adjusted image.
  */
 PNG adjustHue(PNG image, int adjustBy) {
@@ -57,23 +69,56 @@ PNG adjustHue(PNG image, int adjustBy) {
 }
 
 /**
- * Returns an image with a spotlight centered at (`centerX`, `centerY`).
- *
- * A spotlight adjusts the luminance of a pixel based on the distance the pixel
- * is away from the center by decreasing the luminance by 0.5% per 1 pixel euclidean
- * distance away from the center.
- *
- * For example, a pixel 3 pixels above and 4 pixels to the right of the center
- * is a total of `sqrt((3 * 3) + (4 * 4)) = sqrt(25) = 5` pixels away and
- * its luminance is decreased by 2.5% (0.975x its original value).  At a
- * distance over 200 pixels away, the luminance will always 0.
- *
- * The modified PNG is then returned.
+ * Returns an image with an adjusted highlights.
+ * 
+ * @param image A PNG object which holds the image data to be modified.
+ * @param adjustBy The percent of highlights to add.
+ * 
+ * @return The adjusted image.
+ */
+PNG adjustHighlights(PNG image, int adjustBy) {
+  if (!adjustBy) return image;
+  double factor = 1 + adjustBy/1000.0;
+  for (unsigned x = 0; x < image.width(); x++) {
+    for (unsigned y = 0; y < image.height(); y++) {
+      HSLAPixel *pixel = image.getPixel(x, y);
+      if (pixel->l > 0.50) {
+        pixel->l = min(max(pixel->l*factor, 0.0), 1.0);
+      }
+    }
+  }
+  return image;
+}
+
+/**
+ * Returns an image with adjusted shadows.
+ * 
+ * @param image A PNG object which holds the image data to be modified.
+ * @param adjustBy The percent of shadows to add.
+ * 
+ * @return The adjusted image.
+ */
+PNG adjustShadows(PNG image, int adjustBy) {
+  if (!adjustBy) return image;
+  double factor = 1 + adjustBy/1000.0;
+  for (unsigned x = 0; x < image.width(); x++) {
+    for (unsigned y = 0; y < image.height(); y++) {
+      HSLAPixel *pixel = image.getPixel(x, y);
+      if (pixel->l < 0.50) {
+        pixel->l = min(max(pixel->l*factor, 0.0), 1.0);
+      }
+    }
+  }
+  return image;
+}
+
+/**
+ * Returns an image with a vignette.
  *
  * @param image A PNG object which holds the image data to be modified.
  * @param vignetteStrength The strenght of the vignette.
  *
- * @return The image with a spotlight.
+ * @return The image with a vignette.
  */
 PNG addVignette(PNG image, int vignetteStrength) {
   if (!vignetteStrength) return image;
@@ -92,43 +137,19 @@ PNG addVignette(PNG image, int vignetteStrength) {
   return image;
 }
 
-
 /**
- * Returns an image with an adjusted luminance.
- * @return The adjusted image.
+ * Returns an image with adjusted settings.
+ *
+ * @param image A PNG object which holds the image data to be modified.
+ * @param luminance The percent of luminance to add.
+ * @param saturation The percent of luminance to add.
+ * @param hue The percent of luminance to add.
+ * @param highlights The percent of luminance to add.
+ * @param shadows The percent of luminance to add.
+ * @param vignette The percent of luminance to add.
+ *
+ * @return The image with adjusted settings.
  */
-PNG adjustHighlights(PNG image, int adjustBy) {
-  if (!adjustBy) return image;
-  double factor = 1 + adjustBy/1000.0;
-  for (unsigned x = 0; x < image.width(); x++) {
-    for (unsigned y = 0; y < image.height(); y++) {
-      HSLAPixel *pixel = image.getPixel(x, y);
-      if (pixel->l > 0.50) {
-        pixel->l = min(max(pixel->l*factor, 0.0), 1.0);
-      }
-    }
-  }
-  return image;
-}
-
-/**
- * Returns an image with an adjusted luminance.
- * @return The adjusted image.
- */
-PNG adjustShadows(PNG image, int adjustBy) {
-  if (!adjustBy) return image;
-  double factor = 1 + adjustBy/1000.0;
-  for (unsigned x = 0; x < image.width(); x++) {
-    for (unsigned y = 0; y < image.height(); y++) {
-      HSLAPixel *pixel = image.getPixel(x, y);
-      if (pixel->l < 0.50) {
-        pixel->l = min(max(pixel->l*factor, 0.0), 1.0);
-      }
-    }
-  }
-  return image;
-}
-
 PNG adjustAll(PNG image, int luminance, int saturation, int hue, int highlights, int shadows, int vignette) {
   if (!luminance && !saturation && !hue && !highlights && !shadows && !vignette) return image;
   double lumFactor = 1 + luminance/100.0;
@@ -162,7 +183,22 @@ PNG adjustAll(PNG image, int luminance, int saturation, int hue, int highlights,
   return image;
 }
 
-
+/**
+ * Adjusts a single column of the image passed in.
+ * Manipulates the image pointed to by the pointer passed in directly. Doesn't return an image.
+ * 
+ * Used for multithreading in Imago
+ *
+ * @param image A PNG object which holds the image data to be modified.
+ * @param column column number of the image to be modified.
+ * @param luminance The percent of luminance to add.
+ * @param saturation The percent of luminance to add.
+ * @param hue The percent of luminance to add.
+ * @param highlights The percent of luminance to add.
+ * @param shadows The percent of luminance to add.
+ * @param vignette The percent of luminance to add.
+ *
+ */
 void adjustColumn(PNG* image, int column, int luminance, int saturation, int hue, int highlights, int shadows, int vignette) {
   if (!luminance && !saturation && !hue && !highlights && !shadows && !vignette) return;
   double lumFactor = 1 + luminance/100.0;
