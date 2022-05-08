@@ -28,9 +28,8 @@ You need to pass an integer in range \[-100, 100\] (inclusive). For example:
 ```shell script
 ./imago image2 -15 10 0 -10 0 10
 ```
-Note: Do not include the file type in the first argumnet. I.e. if the file is called 'image2.png', don't including the '.png' part in the argumnet.
-k
-```
+Note: Do not include the file type in the first argumnet. i.e. if the file is called 'image2.png', don't including the '.png' part in the argumnet.
+
 6. Your edited images will be exported to the 'exported-images' folder
 
 Note: You can only use png images. If your image isn't png, convert it.
