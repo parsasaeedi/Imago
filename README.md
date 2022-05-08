@@ -14,6 +14,8 @@ Multithreaded CLI Image Editor
 
 Note: You can only use png images. If your image isn't png, convert it.
 
+![carbon2](https://user-images.githubusercontent.com/48306717/167319451-786bf26a-9e5c-42a9-99ee-8f2a2872f9dc.png)
+
 ## How to run by passing command-line arguments
 1. Clone the repository
 2. Drag and drop the png image you want to edit inside the 'input-images' folder
@@ -30,9 +32,14 @@ You need to pass an integer in range \[-100, 100\] (inclusive). For example:
 ```
 Note: Do not include the file type in the first argumnet. i.e. if the file is called 'image2.png', don't including the '.png' part in the argumnet.
 
+
+
 6. Your edited images will be exported to the 'exported-images' folder
 
 Note: You can only use png images. If your image isn't png, convert it.
+
+![carbon1](https://user-images.githubusercontent.com/48306717/167319497-98c4f557-e6fe-4f9e-b1a6-61df8d92efb4.png)
+
 
 ## How to compile
 
