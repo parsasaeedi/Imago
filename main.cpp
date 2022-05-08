@@ -121,13 +121,14 @@ int main(int argc, char *argv[]) {
   for (int i=0; i<NUM_OF_THREADS; i++) {
     threads[i] = thread(dequeue);
   } 
-
   for (int i=0; i<NUM_OF_THREADS; i++) {
     threads[i].join();
   }
 
   cout << "Exporting image..." << endl;
-
   png.writeToFile("./exported-images/out-" + fileName + ".png");
+
+  cout << "You can fine your exported image in the \'exported-images\' folder" << endl;
+
   return 0;
 }
