@@ -128,7 +128,7 @@ int main(int argc, char *argv[]) {
   cout << "Exporting image..." << endl;
   png.writeToFile("./exported-images/out-" + fileName + ".png");
 
-  cout << "You can fine your exported image in the \'exported-images\' folder" << endl;
+  cout << "You can find your exported image in the \'exported-images\' folder" << endl;
 
   return 0;
 }

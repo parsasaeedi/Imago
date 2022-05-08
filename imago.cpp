@@ -159,12 +159,15 @@ PNG adjustAll(PNG image, int luminance, int saturation, int hue, int highlights,
   double shadFactor = 1 + shadows/1000.0;
   double vignFactor = vignette/75000.0;
 
-  int centerX;
-  int centerY;
   double distance;
 
-  for (unsigned x = 0; x < image.width(); x++) {
-    for (unsigned y = 0; y < image.height(); y++) {
+  unsigned int width = image.width();
+  unsigned int height = image.height();
+  unsigned int centerX = image.width() / 2;
+  unsigned int centerY = height / 2;
+
+  for (unsigned x = 0; x < width; x++) {
+    for (unsigned y = 0; y < height; y++) {
       HSLAPixel *pixel = image.getPixel(x, y);
 
       if (lumFactor) pixel->l = min(max(pixel->l*lumFactor, 0.0), 1.0);
@@ -173,8 +176,6 @@ PNG adjustAll(PNG image, int luminance, int saturation, int hue, int highlights,
       if (highFactor && pixel->l > 0.50) pixel->l = min(max(pixel->l*highFactor, 0.0), 1.0);
       if (shadFactor && pixel->l < 0.50) pixel->l = min(max(pixel->l*shadFactor, 0.0), 1.0);
       if (vignFactor) {
-        centerX = image.width() / 2;
-        centerY = image.height() / 2;
         distance = sqrt((x-centerX)*(x-centerX)+(y-centerY)*(y-centerY));
         pixel->l = min(max(pixel->l - distance*vignFactor*pixel->l, 0.0), 1.0);
       }
@@ -208,11 +209,10 @@ void adjustColumn(PNG* image, int column, int luminance, int saturation, int hue
   double shadFactor = 1 + shadows/1000.0;
   double vignFactor = vignette/75000.0;
 
-  int centerX;
-  int centerY;
   double distance;
-  int width = image->width();
-  int height = image->height();
+  unsigned int height = image->height();
+  unsigned centerX = image->width() / 2;
+  unsigned int centerY = height / 2;
 
   for (unsigned y = 0; y < height; y++) {
     HSLAPixel *pixel = image->getPixel(column, y);
@@ -223,8 +223,6 @@ void adjustColumn(PNG* image, int column, int luminance, int saturation, int hue
     if (highFactor && pixel->l > 0.50) pixel->l = min(max(pixel->l*highFactor, 0.0), 1.0);
     if (shadFactor && pixel->l < 0.50) pixel->l = min(max(pixel->l*shadFactor, 0.0), 1.0);
     if (vignFactor) {
-      centerX = image->width() / 2;
-      centerY = image->height() / 2;
       distance = sqrt((column-centerX)*(column-centerX)+(y-centerY)*(y-centerY));
       pixel->l = min(max(pixel->l - distance*vignFactor*pixel->l, 0.0), 1.0);
     }
