@@ -14,7 +14,8 @@ Multithreaded CLI Image Editor
 
 Note: You can only use png images. If your image isn't png, convert it.
 
-![carbon2](https://user-images.githubusercontent.com/48306717/167319451-786bf26a-9e5c-42a9-99ee-8f2a2872f9dc.png)
+<img src="https://user-images.githubusercontent.com/48306717/167319718-0fe1b91e-ff81-4af5-b833-a527a8007a0b.png" alt="carbon1" width="100%"/>
+
 
 ## How to run by passing command-line arguments
 1. Clone the repository
@@ -38,8 +39,7 @@ Note: Do not include the file type in the first argumnet. i.e. if the file is ca
 
 Note: You can only use png images. If your image isn't png, convert it.
 
-![carbon1](https://user-images.githubusercontent.com/48306717/167319497-98c4f557-e6fe-4f9e-b1a6-61df8d92efb4.png)
-
+<img src="https://user-images.githubusercontent.com/48306717/167319695-d18153a8-419f-493f-bc1b-f0150fa80442.png" alt="carbon2" width="100%"/>
 
 ## How to compile
 
