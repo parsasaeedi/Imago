@@ -31,7 +31,7 @@ You need to pass an integer in range \[-100, 100\] (inclusive). For example:
 ```shell script
 ./imago image2 -15 10 0 -10 0 10
 ```
-Note: Do not include the file type in the first argumnet. i.e. if the file is called 'image2.png', don't including the '.png' part in the argumnet.
+Note: Do not include the file type in the first argument. i.e. if the file is called 'image2.png', don't including the '.png' part in the argument.
 
 
 
